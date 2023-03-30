@@ -19,24 +19,34 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
+    @CrossOrigin("http://localhost:4200/")
     @GetMapping(path = "/all")
     public List<ReservationDto> getAllReservations() {
         return reservationService.getAllReservations();
     }
 
+    @CrossOrigin("http://localhost:4200/")
     @GetMapping(path = "/{id}")
     public ReservationDto getReservationById(@PathVariable Long id){
         return reservationService.getReservationById(id);
     }
 
+    @CrossOrigin("http://localhost:4200/")
     @PostMapping
     public void addNewReservation(@RequestBody ReservationDto newReservation) {
         reservationService.addNewReservation(newReservation);
     }
 
+    @CrossOrigin("http://localhost:4200/")
     @DeleteMapping(path = "{reservationId}")
     public void deleteReservation(@PathVariable("reservationId") Long id) {
         reservationService.deleteReservation(id);
+    }
+
+    @CrossOrigin("http://localhost:4200/")
+    @PutMapping(path = "/edit/{id}")
+    public void updateReservation(@RequestBody ReservationDto reservation, @PathVariable Long id) {
+        reservationService.updateReservation(reservation, id);
     }
 
     @PostMapping(path = "/pay")
@@ -44,7 +54,4 @@ public class ReservationController {
         reservationService.payReservation(paymentDto);
     }
 
-    //insert into BUS values (1, 'chatillon', 45, now(), 2.4)
-    //insert into CLIENT values (1, 'ab@gm.com', 'abde wahman')
-    //insert into RESERVATION (RESERVATION_ID, JOURNEY_DATE, BUS_ID, ID) values (1, now(), (select bus_id from bus where bus_id = 1) , (select id from client where id = 1))
 }

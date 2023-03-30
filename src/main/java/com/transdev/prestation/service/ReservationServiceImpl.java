@@ -79,6 +79,23 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
     @Override
+    public void updateReservation(ReservationDto reservationDto, Long reservationId) {
+        Reservation reservation = getReservationById_(reservationId);
+        if (reservation != null) {
+            reservation.setJourneyDate(reservationDto.getJourneyDate());
+            Client client = clientRepository.getReferenceById(reservationDto.getClientId());
+            if (client != null) reservation.setClient(client);
+            List<Bus> busList = new LinkedList<>();
+            for (Long busId: reservationDto.getBusIds()) {
+                Bus bus = busRepository.getReferenceById(busId);
+                if (bus != null) busList.add(bus);
+            }
+            reservation.setBuses(busList);
+        }
+        reservationRepository.save(reservation);
+    }
+
+    @Override
     public void payReservation(PaymentDto paymentDto) {
         Optional<Reservation> reservation = reservationRepository.findById(paymentDto.getReservationId());
         if (reservation != null) {

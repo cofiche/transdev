@@ -17,5 +17,7 @@ public interface ReservationService {
 
     void deleteReservation(Long reservationId);
 
+    void updateReservation(ReservationDto reservationDto, Long reservationId);
+
     void payReservation(PaymentDto paymentDto);
 }
